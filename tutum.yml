@@ -1,0 +1,8 @@
+btsync:
+  image: "tutum/btsync"
+  restart: "on-failure"
+  volumes_from:
+    - "<service-to-sync>"
+  target_num_containers: "<number-containers-sync>"
+  roles:
+    - global

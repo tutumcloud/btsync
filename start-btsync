@@ -1,0 +1,35 @@
+#!/usr/bin/env python
+
+import base64
+import os
+import hashlib
+import json
+import tutum
+
+shared_folders=[]
+cont = tutum.Container.fetch(os.getenv("TUTUM_CONTAINER_API_URI").split('/')[4])
+for v in cont.bindings:
+    secret="A"+base64.b32encode(hashlib.sha224(os.getenv("TUTUM_SERVICE_API_URI")+v['container_path']).hexdigest())[:32] 
+    print "Starting btsync in "+v['container_path']+" with the following secret key: "+secret
+    folder={'secret':secret,
+            'dir':v['container_path'],
+            'use_relay_server':False,
+            'use_tracker':False,
+            'use_dht':False,
+            'search_lan':True,
+            'use_sync_trash':False}
+    shared_folders.append(folder)   
+
+init = {'device_name': 'Sync Container',
+        'listening_port': 55555,
+        'storage_path':'/btsync/.sync',
+        'check_for_updates':False,
+        'use_upnp':False,
+        'download_limit':0,
+        'upload_limit':0,
+        'shared_folders':shared_folders}
+
+with open('/btsync/btsync.conf', 'w') as configfile:
+    json.dump(init,configfile, sort_keys=True,indent=4, separators=(',', ': '))
+
+os.system('btsync --config /btsync/btsync.conf --nodaemon')
