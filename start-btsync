@@ -5,20 +5,34 @@ import os
 import hashlib
 import json
 import tutum
+import sys
+
 
 shared_folders=[]
-cont = tutum.Container.fetch(os.getenv("TUTUM_CONTAINER_API_URI").split('/')[4])
-for v in cont.bindings:
-    secret="A"+base64.b32encode(hashlib.sha224(os.getenv("TUTUM_SERVICE_API_URI")+v['container_path']).hexdigest())[:32] 
-    print "Starting btsync in "+v['container_path']+" with the following secret key: "+secret
-    folder={'secret':secret,
-            'dir':v['container_path'],
-            'use_relay_server':False,
-            'use_tracker':False,
-            'use_dht':False,
-            'search_lan':True,
-            'use_sync_trash':False}
-    shared_folders.append(folder)   
+if (len(sys.argv) > 1):     
+    for v in sys.argv[1:]:
+        secret="A"+base64.b32encode(hashlib.sha224(v).hexdigest())[:32]
+        folder={'secret':secret,
+                'dir':v,
+                'use_relay_server':False,
+                'use_tracker':False,
+                'use_dht':False,
+                'search_lan':True,
+                'use_sync_trash':False}
+        shared_folders.append(folder)
+else:
+    cont = tutum.Container.fetch(os.getenv("TUTUM_CONTAINER_API_URI").split('/')[4])
+    for v in cont.bindings:
+        secret="A"+base64.b32encode(hashlib.sha224(os.getenv("TUTUM_SERVICE_API_URI")+v['container_path']).hexdigest())[:32] 
+        folder={'secret':secret,
+                'dir':v['container_path'],
+                'use_relay_server':False,
+                'use_tracker':False,
+                'use_dht':False,
+                'search_lan':True,
+                'use_sync_trash':False}
+        shared_folders.append(folder)
+ 
 
 init = {'device_name': 'Sync Container',
         'listening_port': 55555,
