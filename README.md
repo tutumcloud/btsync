@@ -12,9 +12,9 @@ Replacing `<folderi>` with any folder you want to synchronize. Each key will be 
 
 ## Deploy on Tutum
 
-Modify the **volumes_from** list with the name of the service you want to sync and the **target_num_containers** with the number of containers from the service you want to synchronize. By default tutum/btsync will syncrhonize all volumes mounted on the containers being created, but you can define the folders to sync as metioned above.
+Modify the **volumes_from** list with the name of the service you want to sync and the **target_num_containers** with the number of containers from the service you want to synchronize. If the target service belongs to another stack its service unique name is its service name plus the service stack name, separated by ".".
 
-All traffic goes through the private network created by Weave.
+By default tutum/btsync will syncrhonize all volumes mounted on the containers being created, but you can define the folders to sync as metioned above. All traffic goes through the private network created by Weave.
 
 ## Notes
 

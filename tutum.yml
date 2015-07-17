@@ -5,4 +5,4 @@ btsync:
     - "<service-to-sync>"
   target_num_containers: "<number-containers-sync>"
   roles:
-    - global
+    - "global"
