@@ -24,7 +24,7 @@ By default tutum/btsync will syncrhonize all volumes mounted on the containers b
 
 ## License
 
-bittorrent Sync has a propietary license included in:
+bittorrent Sync has a proprietary license included in:
 
 http://www.bittorrent.com/legal/privacy
 http://www.bittorrent.com/legal/terms-of-use
