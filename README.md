@@ -16,6 +16,8 @@ Modify the **volumes_from** list with the name of the service you want to sync a
 
 By default tutum/btsync will syncrhonize all volumes mounted on the containers being created, but you can define the folders to sync as metioned above. All traffic goes through the private network created by Weave.
 
+Another way to use this image in Tutum is to define volumes in the btsync service and make the target service/s do a *volumes_from* to the service. In this case the target service/s will share all volumes defined in the btsync service.
+
 ## Notes
 
 * When a file is added to the shared folder, the changes start syncing immediately. However, it can take up to ten seconds to be seen by the other peer.
